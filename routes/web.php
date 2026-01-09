@@ -2,23 +2,20 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\QuizController;
 
-// Main Website Routes
+// Public routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
+Route::post('/register', [AuthController::class, 'register']);
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// Admin Authentication Routes
-Route::get('/admin/login', [AdminAuthController::class, 'showLogin'])->name('admin.login');
-Route::post('/admin/login', [AdminAuthController::class, 'login']);
-Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
-
-// Admin Panel Routes
-Route::get('/admin', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
-Route::get('/admin/users', [AdminController::class, 'users'])->name('admin.users');
-Route::get('/admin/products', [AdminController::class, 'products'])->name('admin.products');
-Route::get('/admin/orders', [AdminController::class, 'orders'])->name('admin.orders');
-Route::get('/admin/analytics', [AdminController::class, 'analytics'])->name('admin.analytics');
-Route::get('/admin/settings', [AdminController::class, 'settings'])->name('admin.settings');
-Route::get('/admin/reports', [AdminController::class, 'reports'])->name('admin.reports');
+// Protected routes
+Route::get('/dashboard', [QuizController::class, 'dashboard'])->name('dashboard');
+Route::get('/quiz', [QuizController::class, 'quiz'])->name('quiz');
+Route::post('/quiz/submit', [QuizController::class, 'submit'])->name('quiz.submit');
+Route::get('/quiz/results', [QuizController::class, 'results'])->name('quiz.results');
+Route::get('/quiz/history', [QuizController::class, 'history'])->name('quiz.history');
